@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration name="local">
+
+	<Properties>
+		<Property name="LOG_PATTERN">[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT" follow="true">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+		</Console>
+		<RollingFile name="debugLog"
+			fileName="logs/application-debug.log"
+			filePattern="logs/application-debug-%d{yyyy-MM-dd}-%i.log" 
+			createOnDemand="true">
+			<LevelRangeFilter minLevel="DEBUG" maxLevel="DEBUG"
+				onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="19500KB" />
+			</Policies>
+			<DefaultRolloverStrategy max="10" />
+		</RollingFile>
+		<RollingFile name="infoLog"
+			fileName="logs/application-info.log"
+			filePattern="logs/application-info-%d{yyyy-MM-dd}-%i.log" 
+			createOnDemand="true">
+			<LevelRangeFilter minLevel="INFO" maxLevel="INFO"
+				onMatch="ACCEPT" onMismatch="DENY" />
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="19500KB" />
+			</Policies>
+			<DefaultRolloverStrategy max="10" />
+		</RollingFile>
+		<RollingFile name="errorLog"
+			fileName="logs/application-error.log"
+			filePattern="logs/application-error-%d{yyyy-MM-dd}-%i.log" 
+			createOnDemand="true">
+			<LevelRangeFilter minLevel="ERROR" maxLevel="ERROR"
+				onMatch="ACCEPT" onMismatch="DENY" />
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="19500KB" />
+			</Policies>
+			<DefaultRolloverStrategy max="10" />
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="com.demo.log4j2" additivity="false">
+			<AppenderRef ref="debugLog" />
+			<AppenderRef ref="infoLog" />
+			<AppenderRef ref="errorLog" />
+		</Logger>
+
+		<Root level="info">
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+
+</Configuration>
